@@ -1,0 +1,1124 @@
+:root {
+  --background: #f5f7fb;
+  --surface: #ffffff;
+  --surface-hover: #f8faff;
+
+  --text: #172033;
+  --text-secondary: #697386;
+  --text-light: #98a2b3;
+
+  --border: #e4e8ef;
+  --border-dark: #d9dee8;
+
+  --accent: #4f46e5;
+  --accent-light: #eef0ff;
+
+  --lecture: #fff7ed;
+  --lecture-border: #fed7aa;
+
+  --radius: 12px;
+  --pair-width: 78px;
+
+  font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Arial,
+          sans-serif;
+}
+
+/* =========================================================
+   ТЕМНАЯ ТЕМА
+   ========================================================= */
+
+.dark-theme {
+  --background: #111318;
+  --surface: #181b21;
+  --surface-hover: #1e222a;
+
+  --text: #f1f3f5;
+  --text-secondary: #a7afbd;
+  --text-light: #727b8b;
+
+  --border: #292e38;
+  --border-dark: #343a46;
+
+  --accent: #818cf8;
+  --accent-light: #24263d;
+
+  --lecture: #2a2118;
+  --lecture-border: #5a4022;
+
+  --badge-background: #252932;
+  --badge-text: #a7afbd;
+
+  --shadow: rgba(0, 0, 0, 0.25);
+  --focus-ring: rgba(129, 140, 248, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--background);
+  color: var(--text);
+}
+
+/* =========================
+   ОСНОВНИЙ КОНТЕЙНЕР
+   ========================= */
+
+.app {
+  min-height: 100vh;
+
+  background: var(--background);
+  color: var(--text);
+
+  transition:
+          background 0.2s ease,
+          color 0.2s ease;
+}
+
+/* =========================
+   ВЕРХНЯ ПАНЕЛЬ
+   ========================= */
+
+.top-bar {
+  min-height: 76px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 28px;
+
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.top-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.page-title {
+  display: flex;
+  flex-direction: column;
+  min-width: 100px;
+}
+
+.page-title-main {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+
+  color: var(--text);
+}
+
+.page-title-sub {
+  margin-top: 2px;
+
+  color: var(--text-secondary);
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* =========================
+   SELECT
+   ========================= */
+
+.selectors {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.selector {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  color: var(--text-secondary);
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.selector select {
+  height: 38px;
+
+  min-width: 132px;
+
+  padding: 0 34px 0 12px;
+
+  border: 1px solid var(--border-dark);
+  border-radius: 9px;
+
+  background: var(--surface);
+  color: var(--text);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  outline: none;
+  cursor: pointer;
+
+  transition:
+          border-color 0.15s ease,
+          box-shadow 0.15s ease;
+}
+
+.selector select:hover {
+  border-color: var(--border-dark);
+}
+
+.selector select:focus {
+  border-color: var(--accent);
+
+  box-shadow:
+          0 0 0 3px var(--focus-ring);
+}
+
+/* =========================
+   ІНФОРМАЦІЯ СПРАВА
+   ========================= */
+
+.selected-info {
+  padding: 8px 12px;
+
+  border-radius: 8px;
+
+  background: var(--accent-light);
+  color: var(--accent);
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* =========================
+   ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ
+   ========================================================= */
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-toggle {
+  height: 38px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  padding: 0 11px;
+
+  border: 1px solid var(--border-dark);
+  border-radius: 9px;
+
+  background: var(--surface);
+  color: var(--text);
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+          background 0.15s ease,
+          border-color 0.15s ease,
+          color 0.15s ease,
+          box-shadow 0.15s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-dark);
+}
+
+.theme-toggle:focus {
+  outline: none;
+
+  border-color: var(--accent);
+
+  box-shadow:
+          0 0 0 3px rgba(129, 140, 248, 0.12);
+}
+
+.theme-icon {
+  font-size: 16px;
+
+  line-height: 1;
+}
+
+.theme-text {
+  white-space: nowrap;
+}
+
+/* =========================
+   ОБГОРТКА ТАБЛИЦІ
+   ========================= */
+
+.schedule-wrapper {
+  width: 100%;
+
+  padding: 24px 28px 40px;
+
+  overflow-x: auto;
+
+  background: var(--background);
+}
+
+/*
+ * Мінімальна ширина потрібна для того,
+ * щоб довгі назви предметів не ламали всю таблицю.
+ */
+.schedule {
+  width: 100%;
+  min-width: 1050px;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius);
+
+  overflow: hidden;
+
+  background: var(--surface);
+
+  box-shadow:
+          0 2px 8px var(--shadow);
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
+.schedule-header {
+  display: grid;
+
+  grid-template-columns:
+    var(--pair-width)
+    repeat(5, minmax(0, 1fr));
+
+  min-height: 58px;
+
+  background: var(--surface-hover);
+
+  border-bottom: 1px solid var(--border);
+}
+
+.pair-header,
+.day-header {
+  display: flex;
+  align-items: center;
+
+  padding: 12px 14px;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  color: var(--text-secondary);
+}
+
+.pair-header {
+  justify-content: center;
+  text-align: center;
+}
+
+.day-header {
+  justify-content: center;
+  text-align: center;
+
+  border-left: 1px solid var(--border);
+}
+
+/* =========================
+   РЯДОК ПАРИ
+   ========================= */
+
+.schedule-row {
+  display: grid;
+
+  grid-template-columns:
+    var(--pair-width)
+    repeat(5, minmax(0, 1fr));
+
+  min-height: 170px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.schedule-row:last-child {
+  border-bottom: none;
+}
+
+/* =========================
+   НОМЕР ПАРИ
+   ========================= */
+
+.pair-number {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 3px;
+
+  background: var(--surface-hover);
+
+  border-right: 1px solid var(--border);
+
+  color: var(--text-light);
+}
+
+.pair-number span {
+  font-size: 10px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pair-number strong {
+  color: var(--text);
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* =========================
+   КОМІРКА
+   ========================= */
+
+.schedule-cell {
+  min-width: 0;
+
+  padding: 6px;
+
+  border-left: 1px solid var(--border);
+
+  background: var(--surface);
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.schedule-cell:hover {
+  background: var(--surface-hover);
+}
+
+.empty-cell {
+  background: var(--surface-hover);
+}
+
+/* =========================
+   КАРТКА ПРЕДМЕТА
+   ========================= */
+
+.lesson-card {
+  width: 100%;
+
+  min-height: 155px;
+
+  padding: 10px 11px;
+
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid var(--border);
+
+  border-radius: 9px;
+
+  background: var(--surface);
+
+  overflow: hidden;
+
+  transition:
+          transform 0.15s ease,
+          box-shadow 0.15s ease,
+          border-color 0.15s ease;
+}
+
+.lesson-card:hover {
+  transform: translateY(-1px);
+
+  border-color: var(--border-dark);
+
+  box-shadow:
+          0 4px 12px var(--shadow);
+}
+
+.lesson-card.lecture {
+  background: var(--lecture);
+  border-color: var(--lecture-border);
+}
+
+/* =========================
+   ВЕРХ КАРТКИ
+   ========================= */
+
+.lesson-top {
+  min-height: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 5px;
+
+  margin-bottom: 7px;
+}
+
+.week-badge,
+.subgroup-badge {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 3px 6px;
+
+  border-radius: 5px;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.week-badge {
+  background: var(--badge-background);
+  color: var(--badge-text);
+}
+
+.subgroup-badge {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+/* =========================
+   НАЗВА
+   ========================= */
+
+.lesson-name {
+  color: var(--text);
+
+  font-size: 13px;
+  font-weight: 700;
+
+  line-height: 1.28;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+
+  overflow: hidden;
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================
+   ВИКЛАДАЧ
+   ========================= */
+
+.lesson-teacher {
+  margin-top: 7px;
+
+  color: var(--text-secondary);
+
+  font-size: 11px;
+  font-weight: 500;
+
+  line-height: 1.25;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+
+  overflow: hidden;
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================
+   НИЗ КАРТКИ
+   ========================= */
+
+.lesson-bottom {
+  margin-top: auto;
+  padding-top: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 5px;
+
+  border-top: 1px solid var(--border);
+}
+
+.lesson-room {
+  min-width: 0;
+
+  color: var(--text-secondary);
+
+  font-size: 10px;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lesson-type {
+  flex-shrink: 0;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  color: var(--text-light);
+}
+
+/* =========================================================
+   АДАПТИВНОСТЬ
+   ========================================================= */
+
+/* =========================================================
+   ПЛАНШЕТЫ / НЕБОЛЬШИЕ ЭКРАНЫ
+   <= 900px
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  /* =========================
+     ВЕРХНЯЯ ПАНЕЛЬ
+     ========================= */
+
+  .top-bar-right {
+    grid-area: info;
+
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+  }
+
+  .theme-toggle {
+    width: 38px;
+
+    padding: 0;
+
+    gap: 0;
+  }
+
+  .theme-text {
+    display: none;
+  }
+
+  .top-bar {
+    min-height: auto;
+
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      auto;
+
+    grid-template-areas:
+      "title info"
+      "selectors selectors";
+
+    align-items: center;
+
+    gap: 14px 16px;
+
+    padding: 14px 16px;
+  }
+
+  /*
+   * Позволяем дочерним элементам
+   * top-bar-left участвовать напрямую
+   * в grid.
+   */
+
+  .top-bar-left {
+    display: contents;
+  }
+
+  /* =========================
+     ЗАГОЛОВОК
+     ========================= */
+
+  .page-title {
+    grid-area: title;
+
+    min-width: 0;
+
+    /*
+     * На маленьком экране:
+     *
+     * Розклад  1 курс
+     *
+     * вместо:
+     *
+     * Розклад
+     * 1 курс
+     */
+
+    flex-direction: row;
+
+    align-items: baseline;
+
+    justify-content: flex-start;
+
+    gap: 8px;
+
+    white-space: nowrap;
+  }
+
+  .page-title-main {
+    font-size: 20px;
+  }
+
+  .page-title-sub {
+    margin-top: 0;
+
+    font-size: 12px;
+  }
+
+  /* =========================
+     ВЫБРАННЫЕ ПАРАМЕТРЫ
+     ========================= */
+
+  .selected-info {
+    grid-area: info;
+
+    align-self: center;
+
+    max-width: 100%;
+
+    padding: 7px 10px;
+
+    border-radius: 8px;
+
+    font-size: 11px;
+
+    line-height: 1.25;
+
+    text-align: center;
+
+    white-space: nowrap;
+  }
+
+  /* =========================
+     SELECTORS
+     ========================= */
+
+  .selectors {
+    grid-area: selectors;
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+    gap: 10px;
+
+    padding-top: 2px;
+  }
+
+  .selector {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 5px;
+
+    font-size: 12px;
+  }
+
+  .selector span {
+    padding-left: 2px;
+  }
+
+  .selector select {
+    width: 100%;
+
+    min-width: 0;
+
+    height: 40px;
+
+    padding:
+            0
+            30px
+            0
+            10px;
+
+    font-size: 13px;
+  }
+
+  /* =========================
+     ТАБЛИЦА
+     ========================= */
+
+  .schedule-wrapper {
+    padding:
+            16px
+            10px
+            30px;
+  }
+}
+
+/* =========================================================
+   ТЕЛЕФОНЫ
+   <= 600px
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  /* =========================
+     ВЕРХНЯЯ ПАНЕЛЬ
+     ========================= */
+
+  .top-bar {
+    grid-template-columns:
+      minmax(0, 1fr)
+      auto;
+
+    gap: 10px 12px;
+
+    padding: 12px;
+  }
+
+  /* =========================
+     ЗАГОЛОВОК
+     ========================= */
+
+  .page-title {
+    flex-direction: row;
+
+    align-items: baseline;
+
+    justify-content: flex-start;
+
+    gap: 7px;
+
+    white-space: nowrap;
+  }
+
+  .page-title-main {
+    font-size: 18px;
+  }
+
+  .page-title-sub {
+    font-size: 11px;
+  }
+
+  /* =========================
+     ВЫБРАННЫЕ ПАРАМЕТРЫ
+     ========================= */
+
+  .selected-info {
+    max-width: 180px;
+
+    padding:
+            6px
+            8px;
+
+    font-size: 10px;
+
+    line-height: 1.25;
+
+    text-align: center;
+
+    white-space: normal;
+  }
+
+  /* =========================
+     ВЫБОР ГРУППЫ
+     ========================= */
+
+  .selectors {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+    gap: 7px;
+  }
+
+  .selector {
+    gap: 4px;
+
+    font-size: 11px;
+  }
+
+  .selector select {
+    height: 38px;
+
+    padding:
+            0
+            24px
+            0
+            8px;
+
+    border-radius: 8px;
+
+    font-size: 12px;
+  }
+
+  /* =========================
+     ТАБЛИЦА
+     ========================= */
+
+  /*
+   * Таблица сохраняет нормальную ширину,
+   * а на телефоне появляется горизонтальный
+   * скролл.
+   */
+
+  .schedule {
+    min-width: 900px;
+  }
+
+  .schedule-wrapper {
+    padding:
+            12px
+            6px
+            24px;
+  }
+}
+
+/* =========================================================
+   ОЧЕНЬ УЗКИЕ ТЕЛЕФОНЫ
+   <= 420px
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+  /* =========================
+     ВЕРХНЯЯ ПАНЕЛЬ
+     ========================= */
+
+  .top-bar {
+    /*
+     * Заголовок и выбранные параметры
+     * остаются в одной строке.
+     */
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(110px, 42%);
+
+    gap: 9px 10px;
+
+    padding: 10px;
+  }
+
+  /* =========================
+     ЗАГОЛОВОК
+     ========================= */
+
+  .page-title {
+    gap: 6px;
+
+    white-space: nowrap;
+  }
+
+  .page-title-main {
+    font-size: 17px;
+  }
+
+  .page-title-sub {
+    font-size: 10px;
+  }
+
+  /* =========================
+     ИНФОРМАЦИЯ
+     ========================= */
+
+  .selected-info {
+    max-width: 100%;
+
+    padding:
+            6px
+            7px;
+
+    font-size: 9px;
+
+    line-height: 1.25;
+
+    white-space: normal;
+  }
+
+  /* =========================
+     SELECTORS
+     ========================= */
+
+  /*
+   * Два элемента в строке:
+   *
+   * Группа      Подгруппа
+   * [ ... ]     [ ... ]
+   *
+   * А Тиждень занимает всю
+   * следующую строку.
+   */
+
+  .selectors {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 8px;
+  }
+
+  .selector:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .selector {
+    width: 100%;
+
+    gap: 4px;
+
+    font-size: 11px;
+  }
+
+  .selector select {
+    width: 100%;
+
+    height: 40px;
+
+    padding:
+            0
+            24px
+            0
+            9px;
+
+    font-size: 13px;
+  }
+}
+
+/* =========================================================
+   СОВСЕМ МАЛЕНЬКИЕ ЭКРАНЫ
+   <= 340px
+   ========================================================= */
+
+@media (max-width: 340px) {
+
+  .top-bar {
+    grid-template-columns: 1fr;
+
+    grid-template-areas:
+      "title"
+      "info"
+      "selectors";
+
+    gap: 9px;
+
+    padding: 10px;
+  }
+
+  /* =========================
+     ЗАГОЛОВОК
+     ========================= */
+
+  .page-title {
+    justify-content: flex-start;
+
+    flex-direction: row;
+
+    align-items: baseline;
+
+    gap: 6px;
+  }
+
+  .page-title-main {
+    font-size: 18px;
+  }
+
+  .page-title-sub {
+    font-size: 11px;
+  }
+
+  /* =========================
+     ВЫБРАННАЯ ИНФОРМАЦИЯ
+     ========================= */
+
+  .selected-info {
+    justify-self: start;
+
+    max-width: 100%;
+
+    padding:
+            6px
+            8px;
+
+    font-size: 10px;
+
+    text-align: left;
+  }
+
+  /* =========================
+     SELECTORS
+     ========================= */
+
+  .selectors {
+    grid-template-columns: 1fr;
+
+    gap: 8px;
+  }
+
+  .selector {
+    width: 100%;
+  }
+
+  .selector:last-child {
+    grid-column: auto;
+  }
+
+  .selector select {
+    width: 100%;
+
+    height: 42px;
+
+    font-size: 13px;
+  }
+
+  /* =========================
+     ТАБЛИЦА
+     ========================= */
+
+  .schedule-wrapper {
+    padding:
+            10px
+            4px
+            20px;
+  }
+}
