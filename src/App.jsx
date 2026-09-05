@@ -1,3 +1,4 @@
+
 import { useMemo, useState, useEffect } from 'react';
 import scheduleData from './data/schedule.json';
 import './App.css';
@@ -12,23 +13,43 @@ const DAYS = [
 
 const PAIRS = [1, 2, 3, 4, 5, 6, 7];
 
+const PAIR_TIMES = {
+  1: '8.20–9.40',
+  2: '9.50–11.10',
+  3: '11.30–12.50',
+  4: '13.00–14.20',
+  5: '14.40–16.00',
+  6: '16.10–17.30',
+  7: '17.40–19.00',
+};
+
 const DEFAULT_SETTINGS = {
   group1: 1,
   group2: 1,
   week: 1,
   darkMode: false,
+  compactMode: false,
 };
 
 function App() {
+  /*
+   * Стан налаштувань.
+   *
+   * При відкритті сайту перевіряємо localStorage.
+   * Якщо налаштувань ще немає — використовуємо
+   * значення з DEFAULT_SETTINGS.
+   */
   const [settings, setSettings] = useState(() => {
     try {
-      const savedSettings = localStorage.getItem('scheduleSettings');
+      const savedSettings =
+        localStorage.getItem('scheduleSettings');
 
       if (!savedSettings) {
         return DEFAULT_SETTINGS;
       }
 
-      const parsedSettings = JSON.parse(savedSettings);
+      const parsedSettings =
+        JSON.parse(savedSettings);
 
       return {
         ...DEFAULT_SETTINGS,
@@ -44,6 +65,16 @@ function App() {
     }
   });
 
+  /*
+   * На мобільному екрані налаштування
+   * спочатку приховані.
+   */
+  const [showSelectors, setShowSelectors] =
+    useState(false);
+
+  /*
+   * Зберігаємо налаштування після кожної зміни.
+   */
   useEffect(() => {
     try {
       localStorage.setItem(
@@ -63,7 +94,12 @@ function App() {
     group2,
     week,
     darkMode,
+    compactMode,
   } = settings;
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark-theme', darkMode);
+  }, [darkMode]);
 
   /*
    * Зміна групи
@@ -95,9 +131,6 @@ function App() {
     }));
   };
 
-  /*
-   * Зміна теми
-   */
   const toggleDarkMode = () => {
     setSettings((current) => ({
       ...current,
@@ -105,9 +138,23 @@ function App() {
     }));
   };
 
+  const toggleCompactMode = () => {
+    setSettings((current) => ({
+      ...current,
+      compactMode: !current.compactMode,
+    }));
+  };
+
+  /*
+   * Показати / приховати селектори
+   */
+  const toggleSelectors = () => {
+    setShowSelectors((value) => !value);
+  };
+
   /*
    * Фільтруємо розклад відповідно
-   * до вибраної групи, підгрупи та тижня.
+   * до групи, підгрупи та тижня.
    */
   const filteredSchedule = useMemo(() => {
     return scheduleData.filter((item) => {
@@ -142,17 +189,17 @@ function App() {
   };
 
   return (
-    <div
-      className={`app ${
-  darkMode ? 'dark-theme' : ''
-}`}
-    >
+      <div className={`app ${compactMode ? 'compact-mode' : ''}`}>
 
-      {/* Верхня панель */}
+      {/* =========================
+          ВЕРХНЯ ПАНЕЛЬ
+          ========================= */}
+
       <header className="top-bar">
 
         <div className="top-bar-left">
 
+          {/* Заголовок */}
           <div className="page-title">
 
             <span className="page-title-main">
@@ -166,7 +213,14 @@ function App() {
           </div>
 
 
-          <div className="selectors">
+          {/* Селектори */}
+          <div
+            className={`selectors ${
+  showSelectors
+      ? 'selectors-visible'
+      : ''
+}`}
+          >
 
             {/* ГРУПА */}
             <label className="selector">
@@ -265,16 +319,61 @@ function App() {
         </div>
 
 
-        {/* Вибрані параметри */}
+        {/* =========================
+            ПРАВА ЧАСТИНА
+            ========================= */}
+
         <div className="top-bar-right">
 
+          {/* Вибрані параметри */}
           <div className="selected-info">
-            Група {group1} · підгрупа {group2} ·{' '}
-            {week} тиждень
+            Група {group1} · підгрупа {group2}
           </div>
 
 
-          {/* Перемикач теми */}
+          <button
+              className={`compact-toggle ${compactMode ? 'active' : ''}`}
+              type="button"
+              onClick={toggleCompactMode}
+              aria-label={
+                compactMode
+                    ? 'Вимкнути компактний режим'
+                    : 'Увімкнути компактний режим'
+              }
+              title={
+                compactMode
+                    ? 'Звичайний режим'
+                    : 'Компактний режим'
+              }
+          >
+            ▤
+          </button>
+
+          {/* Кнопка налаштувань */}
+          <button
+            className={`selectors-toggle ${
+              showSelectors
+                  ? 'active'
+                  : ''
+            }`}
+            type="button"
+            onClick={toggleSelectors}
+            aria-label={
+              showSelectors
+                ? 'Сховати налаштування'
+                : 'Показати налаштування'
+            }
+            title={
+              showSelectors
+                ? 'Сховати налаштування'
+                : 'Показати налаштування'
+            }
+          >
+            ⚙
+          </button>
+
+
+          {/* Кнопка теми */}
           <button
             className="theme-toggle"
             type="button"
@@ -283,6 +382,11 @@ function App() {
               darkMode
                 ? 'Увімкнути світлу тему'
                 : 'Увімкнути темну тему'
+            }
+            title={
+              darkMode
+                ? 'Світла тема'
+                : 'Темна тема'
             }
           >
 
@@ -303,7 +407,10 @@ function App() {
       </header>
 
 
-      {/* Таблиця */}
+      {/* =========================
+          ТАБЛИЦЯ
+          ========================= */}
+
       <main className="schedule-wrapper">
 
         <div className="schedule">
@@ -335,7 +442,7 @@ function App() {
               key={pairNumber}
             >
 
-              {/* Номер пари */}
+              {/* Номер та час пари */}
               <div className="pair-number">
 
                 <span>
@@ -346,10 +453,16 @@ function App() {
                   {pairNumber}
                 </strong>
 
+                {PAIR_TIMES[pairNumber] && (
+                  <small>
+                    {PAIR_TIMES[pairNumber]}
+                  </small>
+                )}
+
               </div>
 
 
-              {/* Понеділок — П'ятниця */}
+              {/* Дні */}
               {DAYS.map((day) => {
 
                 const lessons =
@@ -465,4 +578,3 @@ function LessonCard({ lesson }) {
 
 
 export default App;
-
