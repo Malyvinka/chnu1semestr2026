@@ -677,6 +677,22 @@ body {
   color: var(--accent);
 }
 
+.week-badge,
+.subgroup-badge
+{
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 6px;
+  border-radius: 5px;
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.foreign-badge {
+  background: var(--lecture);
+  color: var(--lecture-border);
+}
 
 /* =========================================================
    НАЗВА

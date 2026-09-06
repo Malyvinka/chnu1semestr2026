@@ -156,36 +156,46 @@ function App() {
    * Фільтруємо розклад відповідно
    * до групи, підгрупи та тижня.
    */
-  const filteredSchedule = useMemo(() => {
-    return scheduleData.filter((item) => {
-      const sameGroup1 =
-        item.group1 === Number(group1);
-
-      const sameGroup2 =
-        item.group2 === null ||
-        item.group2 === Number(group2);
-
-      const sameWeek =
-        item.week === Number(week);
-
-      return (
-        sameGroup1 &&
-        sameGroup2 &&
-        sameWeek
-      );
-    });
-  }, [group1, group2, week]);
+  /*
+ * Розклад тижня (без прив'язки до group1) —
+ * щоб потім шукати як по своєму стовпцю,
+ * так і по чужих (для підгруп зі списків).
+ */
+  const weekSchedule = useMemo(() => {
+    return scheduleData.filter(
+        (item) => item.week === Number(week)
+    );
+  }, [week]);
 
   /*
-   * Отримуємо заняття для конкретної
-   * клітинки таблиці.
+   * Отримуємо заняття для клітинки:
+   * 1) спочатку шукаємо у своєму стовпці (group1);
+   * 2) якщо там порожньо — шукаємо серед УСІХ
+   *    стовпців заняття своєї підгрупи (group2),
+   *    бо предмети по 5 спискам можуть стояти
+   *    в чужій колонці.
    */
   const getPairsForCell = (day, pairNumber) => {
-    return filteredSchedule.filter(
-      (item) =>
-        item.day === day &&
-        item.pair === pairNumber
+    const ownColumn = weekSchedule.filter(
+        (item) =>
+            item.day === day &&
+            item.pair === pairNumber &&
+            item.group1 === Number(group1) &&
+            (item.group2 === null ||
+                item.group2 === Number(group2))
     );
+
+    if (ownColumn.length > 0) {
+      return ownColumn;
+    }
+
+    return weekSchedule
+        .filter(
+            (item) =>
+                item.day === day &&
+                item.pair === pairNumber &&
+                item.group2 === Number(group2)
+        );
   };
 
   return (
@@ -513,66 +523,37 @@ function App() {
  * Окрема картка заняття.
  */
 function LessonCard({ lesson }) {
-
   const room =
-    lesson.room === null
-      ? 'Аудиторія не вказана'
-      : lesson.room;
+      lesson.room === null
+          ? 'Аудиторія не вказана'
+          : lesson.room;
 
   return (
-
-    <div
-      className={`lesson-card ${
-  lesson.isLecture
-      ? 'lecture'
-      : ''
-}`}
-    >
-
-      <div className="lesson-top">
-
+      <div
+          className={`lesson-card ${lesson.isLecture ? 'lecture' : ''}`}
+      >
+        <div className="lesson-top">
         <span className="week-badge">
           {lesson.week} тиждень
         </span>
 
-
-        {lesson.group2 !== null && (
-
-          <span className="subgroup-badge">
+          {lesson.group2 !== null && (
+              <span className="subgroup-badge">
             Підгрупа {lesson.group2}
           </span>
+          )}
+        </div>
 
-        )}
+        <div className="lesson-name">{lesson.name}</div>
+        <div className="lesson-teacher">{lesson.teacher}</div>
 
-      </div>
-
-
-      <div className="lesson-name">
-        {lesson.name}
-      </div>
-
-
-      <div className="lesson-teacher">
-        {lesson.teacher}
-      </div>
-
-
-      <div className="lesson-bottom">
-
-        <span className="lesson-room">
-          {room}
+        <div className="lesson-bottom">
+          <span className="lesson-room">{room}</span>
+          <span className="lesson-type">
+          {lesson.isLecture ? 'Лекція' : 'Практика'}
         </span>
-
-        <span className="lesson-type">
-          {lesson.isLecture
-            ? 'Лекція'
-            : 'Практика'}
-        </span>
-
+        </div>
       </div>
-
-    </div>
-
   );
 }
 
