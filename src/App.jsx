@@ -168,13 +168,24 @@ function App() {
   }, [week]);
 
   /*
-   * Отримуємо заняття для клітинки:
-   * 1) спочатку шукаємо у своєму стовпці (group1);
-   * 2) якщо там порожньо — шукаємо серед УСІХ
-   *    стовпців заняття своєї підгрупи (group2),
-   *    бо предмети по 5 спискам можуть стояти
-   *    в чужій колонці.
-   */
+  * Прибираємо дублікати: буває, що для одного й того ж
+  * заняття в даних є два записи (один загальний,
+  * з group2: null, і один уточнюючий, з конкретною
+  * підгрупою) — вони описують одну й ту саму пару
+  * і не повинні показуватись двічі.
+  */
+  const dedupeLessons = (lessons) => {
+    const seen = new Set();
+    return lessons.filter((item) => {
+      const key = `${item.day}-${item.pair}-${item.name}-${item.teacher}-${item.room}`;
+      if (seen.has(key)) {
+        return false;
+      }
+      seen.add(key);
+      return true;
+    });
+  };
+
   const getPairsForCell = (day, pairNumber) => {
     const ownColumn = weekSchedule.filter(
         (item) =>
@@ -186,16 +197,17 @@ function App() {
     );
 
     if (ownColumn.length > 0) {
-      return ownColumn;
+      return dedupeLessons(ownColumn);
     }
 
-    return weekSchedule
-        .filter(
+    return dedupeLessons(
+        weekSchedule.filter(
             (item) =>
                 item.day === day &&
                 item.pair === pairNumber &&
                 item.group2 === Number(group2)
-        );
+        )
+    );
   };
 
   return (
